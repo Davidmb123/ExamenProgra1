@@ -1,0 +1,172 @@
+package ajedrezProgra;
+
+import java.util.*;
+
+public class ajedrezPro1 {
+	public static void main(String[] args) {
+		Scanner leer = new Scanner(System.in);
+
+		char tablero[][] = new char[8][8];
+//Se asignan las posiciones dentro del array
+		tablero[3][0] = 'T';
+		tablero[2][3] = 'C';
+		tablero[5][2] = 'A';
+		tablero[4][6] = 'r';
+		tablero[1][6] = 'R';
+		int opc;
+		String pieza;
+		String pb;
+//Se crean las variables que se usaran
+		int posicionx, posiciony;
+		int posicionactRx = 1, posicionactRy = 6, posicionactcx = 2, posicionactcy = 3, posicionactTx = 3,
+				posicionactTy = 0, posicionactAx = 5, posicionactAy = 2, posicionactrx = 4, posicionactry = 6;
+//Con este ciclo while se repetira el menu mientras el usuario no salga del programa
+		while (true) {
+			System.out.println("Menu\n1.Mover Pieza\n2.Buscar Pieza\n3.Reiniciar Tablero\n4.Imprimir tablero\n5.Salir");
+//Se selecciona la opcion del menu
+			opc = leer.nextInt();
+			switch (opc) {
+//Case para mover piezas
+			case 1:
+				System.out.println("Que pieza quiere mover?");
+				pieza = leer.next();
+
+				if (pieza.equals("Rey") || pieza.equals("rey") || pieza.equals("REY")) {
+					pieza = pieza.toUpperCase();
+				} else {
+					pieza = pieza.toLowerCase();
+				}
+				switch (pieza.charAt(0)) {
+				case 'r':
+					
+				case 'R':
+					System.out.println("A donde quiere mover al rey\nPosicion x:");
+//Se ingresa la posicion de x y y
+					posicionx = leer.nextInt();
+					System.out.println("Posicion y:");
+					posiciony = leer.nextInt();
+//Se analiza si la posicion ingresada esta a 1 casilla de distancia hacia cualquier direccion
+					if ((Math.abs(posicionx - posicionactRx) <= 1) && (Math.abs(posiciony - posicionactRy) <= 1)) {
+						if (posicionx >= tablero.length || posiciony >= tablero.length) {
+							System.out.println("Out of Bounds");
+						}
+						if (tablero[posicionx][posiciony] == 0) {
+							tablero[posicionx][posiciony] = 'R';
+							tablero[posicionactRx][posicionactRy] = 0;
+							posicionactRx = posicionx;
+							posicionactRy = posiciony;
+							for (int c = 0; c < tablero.length; c++) {
+								for (int c1 = 0; c1 < tablero[c].length; c1++) {
+									System.out.print("[" + tablero[c][c1] + "]");
+								}
+								System.out.println(" ");
+							}
+						} else {
+							System.out.println("La casilla esta ocupada");
+
+						}
+					}
+
+					break;
+				case 'a':
+				case 't':
+				case 'c':
+					System.out.println("A donde quiere mover el caballo\nPosicion x");
+//Se ingresa la posicion del caballo en x y y
+					posicionx = leer.nextInt();
+					System.out.println("Posicion y:");
+					posiciony = leer.nextInt();
+//Se evalua si la posicion ingresada esta dentro del rango de movimiento de la pieza
+					if (((posicionx == posicionactcx + 2) || (posicionx == posicionactcx - 2))
+							&& ((posiciony == posicionactcy + 1) || (posiciony == posicionactcy - 1))) {
+//Se analiza si la casilla a la que se quiere mover la pieza esta ocupada
+						if (tablero[posicionx][posiciony] == 0) {
+							tablero[posicionx][posiciony] = 'C';
+							tablero[posicionactcx][posicionactcy] = 0;
+							posicionactcx = posicionx;
+							posicionactcy = posiciony;
+
+						}
+//Se imprime el tablero 
+						for (int c = 0; c < tablero.length; c++) {
+								for (int c1 = 0; c1 < tablero[c].length; c1++) {
+									System.out.print("[" + tablero[c][c1] + "]");
+								}
+								System.out.println(" ");
+							}
+						} else {
+							System.out.println("La casilla esta ocupada");
+//Se evalua si la posicion nueva del caballo es valida o se puede hacer
+
+						} if (((posicionx == posicionactcx + 1) || (posicionx == posicionactcx - 1))
+							&& ((posiciony == posicionactcy + 2) || (posiciony == posicionactcy - 2))) {
+						if (tablero[posicionx][posiciony] == 0) {
+							tablero[posicionx][posiciony] = 'C';
+							tablero[posicionactcx][posicionactcy] = 0;
+							posicionactcx = posicionx;
+							posicionactcy = posiciony;
+//Se imprime 
+							for (int c = 0; c < tablero.length; c++) {
+								for (int c1 = 0; c1 < tablero[c].length; c1++) {
+									System.out.print("[" + tablero[c][c1] + "]");
+								}
+								System.out.println(" ");
+							}
+						}else {
+							System.out.println("La casilla esta ocupada");
+							
+						}
+					} else {
+						System.out.println("Movimiento invalido");
+					}
+				
+				}
+				break;
+//Case para buscar piezas
+			case 2:
+//Se ingresa la pieza a buscar
+				System.out.println("Que pieza quiere buscar");
+				pb = leer.next();
+//Si la pieza es reina, se convierte a lower Case
+				if (pb == "Reina" || pb == "reina" || pb == "REINA") {
+					pb = pb.toLowerCase();
+				} else {
+					pb = pb.toUpperCase();
+				}
+//Se cuenta el tablero y se imprimen las piezas
+				for (int c = 0; c < tablero.length; c++) {
+					for (int c1 = 0; c1 < tablero[c].length; c1++) {
+						if (pb.charAt(0) == tablero[c][c1]) {
+							System.out.println("La pieza esta en la posicion " + c + "," + c1);
+						}
+					}
+				}
+				break;
+//Case para reiniciar tablero
+			case 3:
+				for (int c = 0; c < tablero.length; c++) {
+					for (int c1 = 0; c1 < tablero[c].length; c1++) {
+						tablero[c][c1] = 0;
+					}
+				}
+				tablero[3][0] = 'T';
+				tablero[2][3] = 'C';
+				tablero[5][2] = 'A';
+				tablero[4][6] = 'r';
+				tablero[1][6] = 'R';
+//Case imprimir tablero
+			case 4:
+				for (int c = 0; c < tablero.length; c++) {
+					for (int c1 = 0; c1 < tablero[c].length; c1++) {
+						System.out.print("{" + tablero[c][c1] + "}");
+					}
+					System.out.println(" ");
+				}
+				break;
+//Case para salir del programa
+			case 5:
+				System.exit(0);
+				break;
+			}
+		}
+}}
